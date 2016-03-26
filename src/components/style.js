@@ -36,6 +36,14 @@ const Style = React.createClass({
 
       if (selector === 'mediaQueries') {
         accumulator += this._buildMediaQueryString(rules);
+      } else if (typeof styles[selector] !== 'object') {
+        // If the selector is actually a rule, and not a selector,
+        // prefix it with the scopeSelector
+        accumulator += cssRuleSetToString(
+          scopeSelector || '',
+          { [selector]: rules },
+          userAgent
+        );
       } else {
         const completeSelector = scopeSelector
           ? selector
